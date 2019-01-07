@@ -54,3 +54,5 @@ References:
  https://docs.microsoft.com/en-us/sql/connect/node-js/step-3-proof-of-concept-connecting-to-sql-using-node-js?view=sql-server-2017
 
  https://docs.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-connect-msi
+
+https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_load-environment-variables-from-external-file-node

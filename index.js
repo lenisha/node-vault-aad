@@ -2,10 +2,12 @@
 var tedious = require('tedious'); //More information can be found here: http://tediousjs.github.io/tedious/index.html
 var express = require('express');
 var request = require("request");
+var Config = require("./config.js");
 
 var Connection = tedious.Connection; //More information about Connection object can be found here: http://tediousjs.github.io/tedious/api-connection.html
 var Request = tedious.Request; //More information about Request object can be found here: http://tediousjs.github.io/tedious/api-request.html
 var TYPES = tedious.TYPES; //More information about TYPES can be found here: http://tediousjs.github.io/tedious/api-datatypes.html
+var config = Config.config;
 
 console.log("loading Node: process arch:" + process.arch);
 
@@ -14,32 +16,7 @@ console.log("loading Node: process arch:" + process.arch);
 //var fs = require('fs');
 //var config = JSON.parse(fs.readFileSync(require('os').homedir()+ '/.tedious/test-connection.json', 'utf8')).config;
 
-var config = {
-  server: process.env.AZURE_SQL_SRV,
-  authentication: {
-    type: 'azure-active-directory-password',
-    options: {
-      userName: process.env.AZURE_AD_USER,
-      password: process.env.AZURE_AD_PASS,
-    }
-  },
-  options: {
-    database: 'nodevaulttestdb',
-    encrypt: true, //indicates if the connection should be encrypted
-    port: 1433, //port to establish connection
-    rowCollectionOnRequestCompletion: true, //returns rows object on the new Request callback
-    useColumnNames: true //returns columns names within the rows object on the new Request callback
-  }
-};
 
-config.options.requestTimeout = 30 * 1000;
-config.options.debug = {
-  data: true,
-  payload: false,
-  token: false,
-  packet: true,
-  log: true
-}
 
 var app = express();
 app.get('/', function (req, res) {
@@ -52,12 +29,12 @@ app.get('/', function (req, res) {
     console.log(err);
     res.send(err);
   } else {
-      executeStatement();
+      executeStatement(connection, req, res);
   }
  });
 });
 
-function executeStatement() {
+function executeStatement(connection, req, res) {
     // If no error, then good to proceed.
     console.log("Connected");
  
