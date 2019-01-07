@@ -22,7 +22,7 @@ To run the app:
  select * from [dbo].[assessment];
  ```
 
-- set App Service > App Settings (or locally variables)
+- set App Service > App Settings  ( for local development add these variables to `.env` file - its loaded in `launch.json`)
 
 ```
 AZURE_AD_PASS=<PASS>
